@@ -1,5 +1,5 @@
 # ham thao tac co so du lieu
-from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin
 from app.database.database import execute_query
 from passlib.context import CryptContext
 from typing import Optional, List, Dict
@@ -48,7 +48,7 @@ class UserService:
         return result[0] if result else None
     
     @staticmethod
-    async def create_user(user: UserCreate) -> Optional[Dict]:
+    async def create(user: UserCreate) -> Optional[Dict]:
         try:
             gen = SnowflakeGenerator(1)
             id = f"{next(gen)}"
@@ -61,7 +61,7 @@ class UserService:
             )
             user_data = await UserService.get_user_by_id(id)
             print(f"\n User data after creation: {user_data} \n")
-            return user_data
+            return UserResponse(**user_data)
         except Exception as e:
             print(f"❌ Lỗi khi tạo user: {e}")
             raise e
@@ -111,16 +111,15 @@ class UserService:
         return affected_rows
 
     @staticmethod
-    async def login(email: EmailStr, password: str) -> Optional[Dict]:
+    async def login(user: UserLogin) -> Optional[Dict]:
         try:
             query = "SELECT * FROM users WHERE email = %s"
-            result = await execute_query(query, (email,), fetch=True)
+            result = await execute_query(query, (user.email,), fetch=True)
             if not result:
                 return None
-            user = result[0]
-            if not UserService.verify_password(password, user["hashed_password"]):
+            result = result[0]
+            if not UserService.verify_password(user.password, result["hashed_password"]):
                 return None
-            return user
+            return UserResponse(**result)
         except Exception as e:
-            print(f"❌ Lỗi khi đăng nhập: {e}")
-            return None
+            return {"error": str(e)}

@@ -1,0 +1,33 @@
+# # Cau hinh moi truong
+# .env
+# .env.*
+# !.env.example
+# .envrc
+
+# # Python cache
+# __pycache__/
+# *.py[cod]
+# *.so
+
+# # Thu muc moi truong ao
+# venv/
+# env/
+# .venv/
+
+# # IDE va editor
+# .vscode/
+# .idea/
+# *.swp
+# *.swo
+
+# # Database
+# mysql_data/
+# *.db
+# *.sqlite3
+
+# # Log files
+# *.log
+
+# # System files
+# .DS_Store
+# Thumbs.db
