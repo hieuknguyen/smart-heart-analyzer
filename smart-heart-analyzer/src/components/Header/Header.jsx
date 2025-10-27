@@ -4,7 +4,7 @@ import logo from "../../assets/image/logo.jpg";
 import icon_nav_menu from "../../assets/image/nav menu.png";
 import icon_search from "../../assets/image/icon_search.png";
 import user from "../../assets/icons/user.png";
-
+import { SearchProduct } from "./../Search.jsx";
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -51,9 +51,10 @@ export default function Header() {
           {/* SEARCH + USER + MENU */}
           <div className="flex items-center gap-4">
             {/* Nút tìm kiếm */}
+            <SearchProduct />
             <button
               onClick={() => setIsMobileSearchOpen(true)}
-              className="block"
+              className="block lg:hidden"
             >
               <img src={icon_search} alt="Search" className="w-6 h-6" />
             </button>
@@ -68,7 +69,7 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(true)}
               className="block lg:hidden"
             >
-              <img src={icon_nav_menu} alt="Menu" className="w-6 h-6" />
+              <img src={icon_nav_menu} alt="Menu" className="w-6 h-6 invert" />
             </button>
           </div>
         </div>
