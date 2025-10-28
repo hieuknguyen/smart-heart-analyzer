@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/image/logo.jpg";
-import icon_nav_menu from "../../assets/image/nav menu.png";
-import icon_search from "../../assets/image/icon_search.png";
-import user from "../../assets/icons/user.png";
-import { SearchProduct } from "./../Search.jsx";
+import logo from "./../assets/image/logo.jpg";
+import icon_nav_menu from "../assets/image/nav menu.png";
+import icon_search from "../assets/image/icon_search.png";
+import user from "../assets/icons/user.png";
+import { SearchProduct } from "../components/Search";
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
