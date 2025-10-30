@@ -1,0 +1,22 @@
+# Virtual environments
+venv/
+venv310/
+venv39/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# VSCode & system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
