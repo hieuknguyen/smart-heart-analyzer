@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from server.api.endpoint import router as predict_router
+from server.api.endpoint import router as prediction_router
 
 app = FastAPI()
 
@@ -12,8 +12,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(predict_router)
+app.include_router(prediction_router)
 
 @app.get("/")
 def root():
-    return {"message": "Server is running: "}
+    return {"message": "Server is running"}
