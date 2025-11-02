@@ -1,8 +1,8 @@
 #dieu huong api
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Body
 from typing import List
 
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, Usertoken
 from app.services.user_service import UserService
 
 router = APIRouter(prefix="", tags=["users"])
@@ -54,6 +54,14 @@ async def delete_user(user_id: str):
 @router.post("/login",response_model = UserResponse)#,response_model= UserLogin, status_code=status.HTTP_200_OK)
 async def login(login_data: UserLogin):
         user = await UserService.login(login_data.email, login_data.password)#UserService.get_user_by_username(db, login_data.username) and
+        if not user:
+            raise HTTPException(status_code=401, detail="Invalid email or password")
+        else:
+            return user
+
+@router.post("/token",response_model = UserResponse, status_code=status.HTTP_200_OK)
+async def login_with_token(token: Usertoken):
+        user = await UserService.login_with_token(token)
         if not user:
             raise HTTPException(status_code=401, detail="Invalid email or password")
         else:

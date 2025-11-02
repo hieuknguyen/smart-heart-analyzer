@@ -11,9 +11,9 @@ from app.routers.Update import Update
 
 
 router = APIRouter(prefix="/users", tags=["users"])
-router.include_router(Get)
+# router.include_router(Get)
 router.include_router(auth)
-router.include_router(Update)
+# router.include_router(Update)
 # router.include_router(Delete)
 # @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 # async def create_user(user: UserCreate)-> UserResponse:

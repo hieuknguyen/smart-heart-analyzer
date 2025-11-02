@@ -21,7 +21,8 @@ class UserResponse(BaseModel):
     is_verified: bool
     created_at: datetime
     updated_at: datetime
-    
+    token: Optional[str] = None
+    token_expires_at: Optional[datetime] = None
     class Config:
         from_attributes = True
 
@@ -40,3 +41,6 @@ class UserChangePassword(BaseModel):
     id: str
     old_password: str
     new_password: str = Field(..., min_length=6, max_length=100)
+
+class Usertoken(BaseModel):
+    token: str
