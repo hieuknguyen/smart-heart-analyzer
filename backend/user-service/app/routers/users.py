@@ -7,14 +7,14 @@ from app.services.user_service import UserService
 from app.routers.Get import Get
 from app.routers.auth import auth
 from app.routers.Update import Update
-from app.routers.Delete import Delete
+# from app.routers.Delete import Delete
 
 
 router = APIRouter(prefix="/users", tags=["users"])
-router.include_router(Get)
+# router.include_router(Get)
 router.include_router(auth)
-router.include_router(Update)
-router.include_router(Delete)
+# router.include_router(Update)
+# router.include_router(Delete)
 # @router.post("/create", status_code=status.HTTP_201_CREATED, response_model=UserResponse)
 # async def create_user(user: UserCreate)-> UserResponse:
 #     created_user = await UserService.create_user(user)

@@ -72,6 +72,8 @@ async def create_tables():
                     hashed_password VARCHAR(255) NOT NULL,
                     is_active BOOLEAN DEFAULT TRUE,
                     is_verified BOOLEAN DEFAULT FALSE,
+                    token VARCHAR(255) NULL,
+                    token_expires_at DATETIME NULL,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     INDEX idx_email (email),
