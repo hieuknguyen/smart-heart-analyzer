@@ -1,5 +1,5 @@
 # ham thao tac co so du lieu
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, UserChangePassword
 from app.database.database import execute_query
 from passlib.context import CryptContext
 from typing import Optional, List, Dict
@@ -123,3 +123,15 @@ class UserService:
             return UserResponse(**result)
         except Exception as e:
             return {"error": str(e)}
+    
+    @staticmethod
+    async def change_password(user: UserChangePassword) -> bool:
+        result = await UserService.get_user_by_id(user.id)
+        if not result:
+            return False
+        if not UserService.verify_password(user.old_password, result["hashed_password"]):
+            return False
+        new_hashed_password = UserService.hash_password(user.new_password)
+        query = "UPDATE users SET hashed_password = %s WHERE id = %s"
+        await execute_query(query, (new_hashed_password,user.id))
+        return True
