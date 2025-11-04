@@ -1,5 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import banner from "../../assets/image/banner.webp";
+import banner1 from "../../assets/image/banner1.jpg";
+import banner2 from "../../assets/image/banner2.jpg";
 import {
   HeartPulse,
   MessageCircle,
@@ -120,19 +123,39 @@ export default function Home() {
             lượng
           </p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-6">
-            {[
-              "Phát hiện sớm bệnh tim mạch",
-              "Theo dõi huyết áp & nhịp tim",
-              "Cải thiện lối sống lành mạnh",
-            ].map((text, i) => (
-              <div
-                key={i}
-                className="bg-white shadow-md rounded-xl px-6 py-4 text-gray-700 font-medium hover:shadow-xl hover:-translate-y-1 transition-all border border-red-100"
-              >
-                {text}
-              </div>
-            ))}
+          <div className="mt-10 flex flex-wrap justify-center gap-8 sm:gap-12">
+            <div className="flex flex-col items-center text-center w-60 sm:w-64">
+              <img
+                src={banner}
+                alt="Phát hiện sớm bệnh tim mạch"
+                className="w-full h-56 object-cover rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+              />
+              <p className="text-gray-800 font-semibold mt-3">
+                Phát hiện sớm bệnh tim mạch
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center w-60 sm:w-64">
+              <img
+                src={banner1}
+                alt="Theo dõi huyết áp & nhịp tim"
+                className="w-full h-56 object-cover rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+              />
+              <p className="text-gray-800 font-semibold mt-3">
+                Theo dõi huyết áp & nhịp tim
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center text-center w-60 sm:w-64">
+              <img
+                src={banner2}
+                alt="Cải thiện lối sống lành mạnh"
+                className="w-full h-56 object-cover rounded-xl shadow-md hover:scale-105 transition-transform duration-300"
+              />
+              <p className="text-gray-800 font-semibold mt-3">
+                Cải thiện lối sống lành mạnh
+              </p>
+            </div>
           </div>
         </div>
       </section>

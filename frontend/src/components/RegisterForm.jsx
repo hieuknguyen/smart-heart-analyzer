@@ -42,7 +42,6 @@ export default function RegisterForm() {
             <h2 className="text-3xl font-bold text-gray-900">Create Account</h2>
             <p className="text-gray-500 text-sm mt-2">
               Hãy tạo tài khoản để bắt đầu hành trình chăm sóc sức khỏe tim mạch
-              ❤️
             </p>
           </div>
 
