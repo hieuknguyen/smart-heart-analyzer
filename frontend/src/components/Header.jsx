@@ -29,10 +29,10 @@ export default function Header() {
           {/* NAVBAR */}
           <ul className="hidden lg:flex items-center space-x-8 text-gray-700 text-[17px] font-medium">
             <li className="relative after:absolute after:h-[1.5px] after:bg-black after:left-0 after:bottom-[-2px] hover:after:scale-x-100 after:scale-x-0 after:w-full after:transition-all after:duration-300">
-              <Link to="/">Home</Link>
+              <Link to="/symptom">Symptom Analysis</Link>
             </li>
             <li className="relative after:absolute after:h-[1.5px] after:bg-black after:left-0 after:bottom-[-2px] hover:after:scale-x-100 after:scale-x-0 after:w-full after:transition-all after:duration-300">
-              <Link to="/diagnosis">Cardiology</Link>
+              <Link to="/diagnosis">ECG Analysis</Link>
             </li>
             <li className="relative after:absolute after:h-[1.5px] after:bg-black after:left-0 after:bottom-[-2px] hover:after:scale-x-100 after:scale-x-0 after:w-full after:transition-all after:duration-300">
               <Link to="/chatbot">Chatbot</Link>
@@ -114,16 +114,16 @@ export default function Header() {
           <div className="fixed top-0 left-0 w-64 h-full bg-white text-black z-50 p-6 space-y-6 shadow-lg">
             <ul className="space-y-5 text-base text-black divide-y divide-gray-300">
               <li>
-                <Link to="/">Trang Chủ</Link>
+                <Link to="/symptom">Symptom Analysis</Link>
               </li>
               <li>
-                <Link to="/diagnosis">Tự Chẩn Đoán</Link>
+                <Link to="/diagnosis">ECG Analysis</Link>
               </li>
               <li>
-                <Link to="/knowledge">Kiến Thức Tim Mạch</Link>
+                <Link to="/chatbot">Chatbot</Link>
               </li>
               <li>
-                <Link to="/tips">Lời Khuyên Sức Khỏe</Link>
+                <Link to="/history">History</Link>
               </li>
               <li>
                 <Link to="/contact">Liên Hệ</Link>
