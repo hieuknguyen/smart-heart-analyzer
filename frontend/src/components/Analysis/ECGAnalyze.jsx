@@ -18,7 +18,7 @@ export const ECGAnalyze = () => {
     setImages([...images, ...newImages]);
   };
 
-  // 🌐 Thêm ảnh từ URL
+  // Thêm ảnh từ URL
   const handleAddFromURL = () => {
     if (!urlInput.trim()) return;
     const newImg = {

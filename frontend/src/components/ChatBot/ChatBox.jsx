@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Bot, User, Send, Image, Plus, History, Trash2 } from "lucide-react";
 
 export const ChatBox = () => {
+  //bo 5-9 12-29 53-64
   const [conversations, setConversations] = useState([
     { id: 1, name: "Đoạn chat 1", messages: [] },
     { id: 2, name: "Đoạn chat 2", messages: [] },
