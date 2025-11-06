@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 # Load trained model
-MODEL_PATH = r"C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\heart-disease-prediction-model\heart_disease_pred_model.pkl"
+MODEL_PATH = r"H:\smart-heart-analyzer\models\heart-disease-prediction-model\heart_disease_pred_model.pkl"
 model = joblib.load(MODEL_PATH)
 
 def predict_symptom(data: dict):

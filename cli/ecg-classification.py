@@ -154,14 +154,14 @@ class ECG:
 
     def DimensionalReduciton(self, test_final):
         """Dimensionality reduction with PCA"""
-        pca_loaded_model = joblib.load(r'C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\ecg-image-classification-model\PCA_ECG.pkl')
+        pca_loaded_model = joblib.load(r'H:\smart-heart-analyzer\models\ecg-image-classification-model\PCA_ECG.pkl')
         result = pca_loaded_model.transform(test_final)
         final_df = pd.DataFrame(result)
         return final_df
 
     def ModelLoad_predict(self, final_df):
         """Load pretrained model and predict"""
-        loaded_model = joblib.load(r'C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\ecg-image-classification-model\Heart_Disease_Prediction_using_ECG.pkl')
+        loaded_model = joblib.load(r'H:\smart-heart-analyzer\models\ecg-image-classification-model\Heart_Disease_Prediction_using_ECG.pkl')
         result = loaded_model.predict(final_df)
         if result[0] == 1:
             return "Your ECG corresponds to Myocardial Infarction"

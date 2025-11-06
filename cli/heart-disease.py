@@ -4,7 +4,7 @@ import numpy as np
 import joblib
 
 # Load the trained model
-model = joblib.load(r"C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\heart-disease-prediction-model\heart_disease_pred_model.pkl")
+model = joblib.load(r"H:\smart-heart-analyzer\models\heart-disease-prediction-model\heart_disease_pred_model.pkl")
 
 # Streamlit UI
 st.title("Heart Disease Prediction App")

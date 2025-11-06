@@ -9,8 +9,8 @@ from sklearn.preprocessing import MinMaxScaler
 class ECGPredictor:
     def __init__(self, pca_path=None, model_path=None):
         # Lazy-load model, chỉ load khi lần đầu tiên predict
-        self.pca_path = pca_path or r"C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\ecg-image-classification-model\PCA_ECG.pkl"
-        self.model_path = model_path or r"C:\Users\strong\Desktop\Work\OutSource\heart_disease_classification\models\ecg-image-classification-model\Heart_Disease_Prediction_using_ECG.pkl"
+        self.pca_path = pca_path or r"H:\smart-heart-analyzer\models\ecg-image-classification-model\PCA_ECG.pkl"
+        self.model_path = model_path or r"H:\smart-heart-analyzer\models\ecg-image-classification-model\Heart_Disease_Prediction_using_ECG.pkl"
         self.pca_model = None
         self.ecg_model = None
 
