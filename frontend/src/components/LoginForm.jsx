@@ -20,7 +20,6 @@ export default function LoginForm() {
       return;
     }
 
-    // ✅ Giả lập đăng nhập thành công
     toast.success("Đăng nhập thành công! Chào mừng bạn quay lại 💖");
   };
 
@@ -102,7 +101,7 @@ export default function LoginForm() {
           Chưa có tài khoản?{" "}
           <Link
             to="/register"
-            className="text-red-500 font-medium hover:underline"
+            className="text-indigo-600 font-medium hover:underline"
           >
             Đăng ký ngay
           </Link>
