@@ -1,14 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaHeartPulse, FaEye, FaEyeSlash } from "react-icons/fa6";
 import Google from "../assets/image/logo_google.png";
 import Facebook from "../assets/image/logo_facebook.png";
 import Twitter from "../assets/image/logo_Twitter.png";
+import { useMutation } from "@tanstack/react-query";
+import { loginService } from "@/servers/authService";
 import { toast } from "sonner";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: loginService,
+    onSuccess: (res) => {
+      toast.success("Đăng nhập thành công!");
+      localStorage.setItem("isLogin", true);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      console.log(res.data);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    },
+    onError: (error) => {
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message);
+    },
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,9 +36,13 @@ export default function LoginForm() {
     if (!email || !password) {
       toast.warning("Vui lòng nhập đầy đủ thông tin!");
       return;
+    } else {
+      const data = {
+        email: email,
+        password: password,
+      };
+      mutation.mutate(data);
     }
-
-    toast.success("Đăng nhập thành công! Chào mừng bạn quay lại 💖");
   };
 
   return (

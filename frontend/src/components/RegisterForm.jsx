@@ -1,15 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Google from "../assets/image/logo_google.png";
 import Facebook from "../assets/image/logo_facebook.png";
 import Twitter from "../assets/image/logo_Twitter.png";
+import { useMutation } from "@tanstack/react-query";
+import { registerUser } from "@/servers/authService";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "sonner";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (res) => {
+      if (res.data !== null) {
+        toast.success("Đăng ký thành công");
+        navigate("/login");
+      } else {
+        toast.error("call api fall");
+        console.log("not oke");
+      }
+    },
+    onError: () => {
+      console.log("not oke");
+    },
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -22,15 +39,15 @@ export default function RegisterForm() {
     if (!first_name || !last_name || !email || !password || !confirmPassword) {
       toast.warning("Vui lòng nhập đầy đủ thông tin!");
       return;
+    } else {
+      const data = {
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        password: password,
+      };
+      mutation.mutate(data);
     }
-
-    if (password !== confirmPassword) {
-      toast.error("Mật khẩu nhập lại không khớp!");
-      return;
-    }
-
-    toast.success("Đăng ký thành công! Hãy đăng nhập để tiếp tục 💖");
-    // setTimeout(() => navigate("/login"), 1200);
   };
 
   return (
