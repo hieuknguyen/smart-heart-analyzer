@@ -8,6 +8,7 @@ import { ProfilePage } from "@/page/ProfilePage";
 import { RegisterPage } from "@/page/RegisterPage";
 import { SymptomPage } from "@/page/SymptomPage";
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "sonner";
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
           />
         </Route>
       </Routes>
+      <Toaster position="top-right" richColors />
     </>
   );
 };
