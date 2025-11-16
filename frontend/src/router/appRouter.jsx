@@ -2,10 +2,13 @@ import { LayoutClient } from "@/Layout.jsx";
 import { AnalyzePage } from "@/page/AnalyzePage";
 import { ChangePasswordPage } from "@/page/ChangePasswordPage";
 import { ChatPage } from "@/page/ChatPage";
+import { ContactPage } from "@/page/ContactPage";
 import { HomePage } from "@/page/HomePage";
 import { LoginPage } from "@/page/LoginPage";
+import { PageResult } from "@/page/PageResult";
 import { ProfilePage } from "@/page/ProfilePage";
 import { RegisterPage } from "@/page/RegisterPage";
+import { ResultSymptomPage } from "@/page/ResultSymptomPage";
 import { SymptomPage } from "@/page/SymptomPage";
 import { Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
@@ -26,6 +29,9 @@ const AppRouter = () => {
             path="/profile/ChangePassword"
             element={<ChangePasswordPage />}
           />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/result" element={<PageResult />} />
+          <Route path="/result-symptom" element={<ResultSymptomPage />} />
         </Route>
       </Routes>
       <Toaster position="top-right" richColors />
