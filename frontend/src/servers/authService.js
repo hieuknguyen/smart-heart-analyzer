@@ -1,7 +1,7 @@
 import { axiosClient, axiosClientFormData } from "./axiosClient";
 export const registerUser = async (userInfor) => {
   const data = userInfor;
-  const res = await axiosClient.post("/auth", data);
+  const res = await axiosClient.post("/auth/", data);
   return res;
 };
 export const loginService = async (data) => {
