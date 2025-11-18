@@ -11,8 +11,11 @@ import {
 } from "lucide-react";
 
 export default function Home() {
+  const data = JSON.parse(localStorage.getItem("user"));
+  const token = data.token;
+  console.log(token);
+  // if( localStorage.getItem("user")!==null && localStorage.getItem(token){
   const navigate = useNavigate();
-
   return (
     <div className="font-sans text-gray-800">
       {/* --- CHÀO MỪNG --- */}
