@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.users import router as users
-from app.routers.auth import auth as auth_router
+
 from app.database.database import create_tables, initialize_database, _pool
 
 
@@ -28,4 +28,4 @@ async def on_shutdown():
         await _pool.wait_closed()
         
 app.include_router(users)
-app.include_router(auth_router)
+
