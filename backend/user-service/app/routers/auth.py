@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, status
-from typing import List
+from fastapi import APIRouter, status, HTTPException
 
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin,UserChangePassword, Usertoken
+from app.schemas.user import UserCreate, UserResponse, UserLogin, Usertoken,PasswordChangeRequest
 from app.services.user_service import UserService
 
 auth = APIRouter(prefix="/auth",tags=["auth"])
@@ -25,10 +24,27 @@ async def login_with_token(token: Usertoken):
         # else:
         #     return user
 
-@auth.put("/change-password", status_code=status.HTTP_201_CREATED)
-async def change_password(user: UserChangePassword) -> bool:
-    change_password = await UserService.change_password(user)
-    return change_password
+@auth.patch("/{user_id}/password", status_code=status.HTTP_204_NO_CONTENT)
+async def change_password(user_id: str, payload: PasswordChangeRequest):
+    """
+    Đổi mật khẩu cho user theo id.
+    """
+    try:
+        await UserService.change_password(
+            user_id=user_id,
+            old_password=payload.old_password,
+            new_password=payload.new_password,
+        )
+    except LookupError:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+    except PermissionError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Mật khẩu cũ không đúng",
+        )
 
 @auth.post("/logout")
 async def logout():

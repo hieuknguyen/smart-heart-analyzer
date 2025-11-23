@@ -28,4 +28,4 @@ async def on_shutdown():
         await _pool.wait_closed()
         
 app.include_router(users)
-# app.include_router(auth_router)
+app.include_router(auth_router)

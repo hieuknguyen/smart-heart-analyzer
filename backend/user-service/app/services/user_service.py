@@ -1,5 +1,5 @@
 # ham thao tac co so du lieu
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, UserChangePassword,Usertoken
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, Usertoken
 from app.database.database import execute_query
 from passlib.context import CryptContext
 from typing import Optional, List, Dict
@@ -179,16 +179,20 @@ class UserService:
             return {"error": str(e)}
         
     @staticmethod
-    async def change_password(user: UserChangePassword) -> bool:
-        result = await UserService.get_user_by_id(user.id)
+    async def change_password(user_id: str, old_password: str, new_password: str) -> None:
+        """
+        Đổi mật khẩu người dùng theo id.
+        Ném lỗi khi không tìm thấy user hoặc mật khẩu cũ không khớp.
+        """
+        result = await UserService.get_user_by_id(user_id)
         if not result:
-            return False
-        if not UserService.verify_password(user.old_password, result["hashed_password"]):
-            return False
-        new_hashed_password = UserService.hash_password(user.new_password)
+            raise LookupError("User not found")
+        if not UserService.verify_password(old_password, result["hashed_password"]):
+            raise PermissionError("Mật khẩu cũ không đúng")
+
+        new_hashed_password = UserService.hash_password(new_password)
         query = "UPDATE users SET hashed_password = %s WHERE id = %s"
-        await execute_query(query, (new_hashed_password,user.id))
-        return True
+        await execute_query(query, (new_hashed_password, user_id))
     
     @staticmethod
     def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
