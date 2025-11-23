@@ -76,14 +76,31 @@ class UserService:
         update_fields = user_update.model_dump(exclude_unset=True)
         if not update_fields:
             return await UserService.get_user_by_id(user_id)
-            
         set_clause = ", ".join(f"{field} = %s" for field in update_fields.keys())
         values = tuple(update_fields.values()) + (user_id,)
-        
         query = f"UPDATE users SET {set_clause} WHERE id = %s"
         await execute_query(query, values)
-        
         return await UserService.get_user_by_id(user_id)
+    
+    @staticmethod
+    async def edit_profile(user_id: str, profile_update: UserUpdate) -> Optional[UserResponse]:
+        existing_user = await UserService.get_user_by_id(user_id)
+        if not existing_user:
+            return None
+        update_fields = profile_update.model_dump(exclude_unset=True)
+        update_fields.pop("is_active", None)
+        if "email" in update_fields:
+            email_owner = await UserService.get_user_by_email(update_fields["email"])
+            if email_owner and email_owner["id"] != user_id:
+                raise ValueError("Email đã tồn tại")
+        if not update_fields:
+            return UserResponse(**existing_user)
+        set_clause = ", ".join(f"{field} = %s" for field in update_fields.keys())
+        query = f"UPDATE users SET {set_clause}, updated_at = CURRENT_TIMESTAMP WHERE id = %s"
+        values = tuple(update_fields.values()) + (user_id,)
+        await execute_query(query, values)
+        updated_user = await UserService.get_user_by_id(user_id)
+        return UserResponse(**updated_user) if updated_user else None
     
     @staticmethod
     async def delete_user(user_id: str) -> bool:

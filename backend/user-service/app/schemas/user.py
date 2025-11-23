@@ -36,7 +36,7 @@ class UserUpdate(BaseModel):
     first_name: Optional[str] = Field(None, max_length=50)
     last_name: Optional[str] = Field(None, max_length=50)
     is_active: Optional[bool] = None
-
+    
 class UserChangePassword(BaseModel):
     id: str
     old_password: str
