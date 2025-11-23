@@ -10,10 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
+    "@tanstack/react-query": "^5.90.7",
+    "axios": "^1.13.2",
     "init": "^0.1.2",
+<<<<<<< HEAD
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "shadcn": "^3.5.0"
+=======
+    "install": "^0.13.0",
+    "lucide-react": "^0.548.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.9.4",
+    "recharts": "^3.4.1",
+    "shadcn": "^3.5.0",
+    "sonner": "^2.0.7"
+>>>>>>> 0eca736f3187d096b5f831ade92e208cef93662e
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
