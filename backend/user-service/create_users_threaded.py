@@ -25,7 +25,7 @@ def generate_random_names():
     return random.choice(first_names), random.choice(last_names)
 
 def create_user(user_data):
-    url = "http://localhost:3000/users/"
+    url = "https://quackquack.io.vn/users/auth/"
     try:
         print(f"\nAttempting to create user with data:")
         print(json.dumps(user_data, indent=2))

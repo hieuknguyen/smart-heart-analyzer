@@ -7,7 +7,8 @@ from pydantic import EmailStr
 from snowflake import SnowflakeGenerator
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-
+from fastapi import HTTPException
+import pymysql
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class UserService:
@@ -55,21 +56,50 @@ class UserService:
             gen = SnowflakeGenerator(1)
             id = f"{next(gen)}"
             hashed_password = UserService.hash_password(user.password)
+
             ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-            access_token = UserService.create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
-            insert_query = """INSERT INTO users (id, email, first_name, last_name, hashed_password, is_active, is_verified,token, token_expires_at) 
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-            await execute_query(
-                insert_query, 
-                (id, user.email, user.first_name, user.last_name, hashed_password, True, False,access_token, datetime.utcnow() + access_token_expires)
+            access_token = UserService.create_access_token(
+                data={"sub": user.email},
+                expires_delta=access_token_expires
             )
+
+            insert_query = """
+                INSERT INTO users 
+                (id, email, first_name, last_name, hashed_password, is_active, is_verified, token, token_expires_at) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """
+
+            await execute_query(
+                insert_query,
+                (
+                    id,
+                    user.email,
+                    user.first_name,
+                    user.last_name,
+                    hashed_password,
+                    True,
+                    False,
+                    access_token,
+                    datetime.utcnow() + access_token_expires,
+                )
+            )
+
             user_data = await UserService.get_user_by_id(id)
-            print(f"\n User data after creation: {user_data} \n")
             return UserResponse(**user_data)
-        except Exception as e:
-            print(f"❌ Lỗi khi tạo user: {e}")
+
+        except pymysql.err.IntegrityError as e:
+            # Duplicate email -> 409 Conflict
+            if e.args[0] == 1062:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Email already exists"
+                )
             raise e
+
+        except Exception as e:
+            print(f"❌ Unexpected error: {e}")
+            raise HTTPException(status_code=500, detail="Internal server error")
     
     @staticmethod
     async def update_user(user_id: str, user_update: UserUpdate) -> Optional[Dict]:
