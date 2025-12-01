@@ -17,6 +17,10 @@ class UserResponse(BaseModel):
     email: EmailStr
     first_name: Optional[str] = Field(None, max_length=50)
     last_name: Optional[str] = Field(None, max_length=50)
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    height_cm: Optional[float] = None
+    weight_kg: Optional[float] = None
     is_active: bool
     is_verified: bool
     created_at: datetime
@@ -35,6 +39,10 @@ class UserUpdate(BaseModel):
     email: Optional[EmailStr] = None
     first_name: Optional[str] = Field(None, max_length=50)
     last_name: Optional[str] = Field(None, max_length=50)
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    weight_kg: Optional[float] = None
+    height_cm: Optional[float] = None
     is_active: Optional[bool] = None
     
 class UserChangePassword(BaseModel):
