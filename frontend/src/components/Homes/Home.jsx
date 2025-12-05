@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import banner from "../../assets/image/banner.webp";
 import banner1 from "../../assets/image/banner1.jpg";
 import banner2 from "../../assets/image/banner2.jpg";
+import { useMutation } from "@tanstack/react-query";
+import { loginWithToken } from "@/servers/authService";
+import Cookies from "js-cookie";
+
 import {
   HeartPulse,
   MessageCircle,
   ClipboardList,
   History,
 } from "lucide-react";
-
 export default function Home() {
-  const navigate = useNavigate();
+  const mutation = useMutation({
+    mutationFn: loginWithToken,
+    onSuccess: (res) => {
+      console.log("Login with token success:", res.data.token);
+      // Lưu lại user info
+      localStorage.setItem("isLogin", true);
+    },
+    onError: () => {
+      console.log("Token invalid");
+    },
+  });
+  useEffect(() => {
+    mutation.mutate();
+  }, []);
 
+  const navigate = useNavigate();
   return (
     <div className="font-sans text-gray-800">
       {/* --- CHÀO MỪNG --- */}

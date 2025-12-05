@@ -1,19 +1,21 @@
 #luon doc AI_GUIDELINES.md
 from fastapi import FastAPI
-from app.routers.users import router as users
-from app.database.database import create_tables, initialize_database, _pool
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routers.users import router as users
+
+from app.database.database import create_tables, initialize_database, _pool
 
 
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # hoặc ["http://localhost:3000"] nếu bạn có frontend riêng
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Cho phép tất cả phương thức: GET, POST, PUT, DELETE, OPTIONS,...
-    allow_headers=["*"],  # Cho phép mọi header (bao gồm Authorization)
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
 @app.on_event("startup")
 async def on_startup():
     await initialize_database()
@@ -26,3 +28,4 @@ async def on_shutdown():
         await _pool.wait_closed()
         
 app.include_router(users)
+

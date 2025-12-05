@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ECGAnalyze = () => {
+  const navigate = useNavigate();
   const [images, setImages] = useState([]);
   const [urlInput, setUrlInput] = useState("");
   const [previewImg, setPreviewImg] = useState(null);
@@ -39,10 +41,6 @@ export const ECGAnalyze = () => {
 
   const handleClear = () => {
     setImages([]);
-  };
-
-  const handleAnalyze = () => {
-    alert("Đang phân tích ảnh...");
   };
 
   return (
@@ -161,7 +159,7 @@ export const ECGAnalyze = () => {
             {/* Nút hành động */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <button
-                onClick={handleAnalyze}
+                onClick={() => navigate("/result")}
                 className="bg-red-600 hover:bg-red-700 text-white font-medium px-5 sm:px-6 py-2 rounded-md shadow transition-all text-sm sm:text-base"
               >
                 Phân tích

@@ -7,6 +7,7 @@ import Twitter from "../assets/image/logo_Twitter.png";
 import { useMutation } from "@tanstack/react-query";
 import { loginService } from "@/servers/authService";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +17,11 @@ export default function LoginForm() {
     onSuccess: (res) => {
       toast.success("Đăng nhập thành công!");
       localStorage.setItem("isLogin", true);
+      const token = res.data.token;
+      Cookies.set("auth_token", token, {
+        secure: true,
+        sameSite: "Strict",
+      });
       localStorage.setItem("user", JSON.stringify(res.data));
       console.log(res.data);
       setTimeout(() => {
