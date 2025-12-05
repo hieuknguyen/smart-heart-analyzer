@@ -1,5 +1,5 @@
 # # Cau hinh moi truong
-.env
+# .env
 # .env.*
 # !.env.example
 # .envrc

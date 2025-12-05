@@ -4,7 +4,7 @@ import logo from "./../assets/image/logo.png";
 import icon_nav_menu from "../assets/image/nav menu.png";
 import icon_search from "../assets/image/icon_search.png";
 import user from "../assets/icons/user.png";
-import { SearchProduct } from "../components/Search";
+import { SearchProduct } from "./SearchProduct";
 import { useQueryClient } from "@tanstack/react-query";
 import { logoutService } from "@/servers/authService";
 import { toast } from "sonner";

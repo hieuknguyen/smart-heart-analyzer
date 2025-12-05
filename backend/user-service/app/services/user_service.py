@@ -1,5 +1,5 @@
 # ham thao tac co so du lieu
-from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, UserChangePassword,Usertoken
+from app.schemas.user import UserCreate, UserResponse, UserUpdate, UserLogin, Usertoken
 from app.database.database import execute_query
 from passlib.context import CryptContext
 from typing import Optional, List, Dict
@@ -76,14 +76,31 @@ class UserService:
         update_fields = user_update.model_dump(exclude_unset=True)
         if not update_fields:
             return await UserService.get_user_by_id(user_id)
-            
         set_clause = ", ".join(f"{field} = %s" for field in update_fields.keys())
         values = tuple(update_fields.values()) + (user_id,)
-        
         query = f"UPDATE users SET {set_clause} WHERE id = %s"
         await execute_query(query, values)
-        
         return await UserService.get_user_by_id(user_id)
+    
+    @staticmethod
+    async def edit_profile(user_id: str, profile_update: UserUpdate) -> Optional[UserResponse]:
+        existing_user = await UserService.get_user_by_id(user_id)
+        if not existing_user:
+            return None
+        update_fields = profile_update.model_dump(exclude_unset=True)
+        update_fields.pop("is_active", None)
+        if "email" in update_fields:
+            email_owner = await UserService.get_user_by_email(update_fields["email"])
+            if email_owner and email_owner["id"] != user_id:
+                raise ValueError("Email đã tồn tại")
+        if not update_fields:
+            return UserResponse(**existing_user)
+        set_clause = ", ".join(f"{field} = %s" for field in update_fields.keys())
+        query = f"UPDATE users SET {set_clause}, updated_at = CURRENT_TIMESTAMP WHERE id = %s"
+        values = tuple(update_fields.values()) + (user_id,)
+        await execute_query(query, values)
+        updated_user = await UserService.get_user_by_id(user_id)
+        return UserResponse(**updated_user) if updated_user else None
     
     @staticmethod
     async def delete_user(user_id: str) -> bool:
@@ -162,16 +179,20 @@ class UserService:
             return {"error": str(e)}
         
     @staticmethod
-    async def change_password(user: UserChangePassword) -> bool:
-        result = await UserService.get_user_by_id(user.id)
+    async def change_password(user_id: str, old_password: str, new_password: str) -> None:
+        """
+        Đổi mật khẩu người dùng theo id.
+        Ném lỗi khi không tìm thấy user hoặc mật khẩu cũ không khớp.
+        """
+        result = await UserService.get_user_by_id(user_id)
         if not result:
-            return False
-        if not UserService.verify_password(user.old_password, result["hashed_password"]):
-            return False
-        new_hashed_password = UserService.hash_password(user.new_password)
+            raise LookupError("User not found")
+        if not UserService.verify_password(old_password, result["hashed_password"]):
+            raise PermissionError("Mật khẩu cũ không đúng")
+
+        new_hashed_password = UserService.hash_password(new_password)
         query = "UPDATE users SET hashed_password = %s WHERE id = %s"
-        await execute_query(query, (new_hashed_password,user.id))
-        return True
+        await execute_query(query, (new_hashed_password, user_id))
     
     @staticmethod
     def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

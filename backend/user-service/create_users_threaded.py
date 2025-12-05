@@ -25,7 +25,7 @@ def generate_random_names():
     return random.choice(first_names), random.choice(last_names)
 
 def create_user(user_data):
-    url = "http://localhost:8000/users/auth"
+    url = "http://localhost:3000/users/"
     try:
         print(f"\nAttempting to create user with data:")
         print(json.dumps(user_data, indent=2))
@@ -68,10 +68,10 @@ def create_users_batch(users):
 
 def main():
     print("Generating 100 random users...")
-    all_users = generate_users(1)
+    all_users = generate_users(1000)
     
     # Chia users thành 4 phần bằng nhau
-    batch_size = len(all_users) // 1
+    batch_size = len(all_users) // 5
     user_batches = [
         all_users[i:i + batch_size] 
         for i in range(0, len(all_users), batch_size)
