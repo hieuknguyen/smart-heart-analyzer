@@ -1,14 +1,40 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "./../assets/image/logo.png";
 import icon_nav_menu from "../assets/image/nav menu.png";
 import icon_search from "../assets/image/icon_search.png";
 import user from "../assets/icons/user.png";
 import { SearchProduct } from "../components/Search";
+import { useQueryClient } from "@tanstack/react-query";
+import { logoutService } from "@/servers/authService";
+import { toast } from "sonner";
 export default function Header() {
+  const queryClient = useQueryClient();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserData(user);
+    }
+    queryClient.invalidateQueries(["users"]);
+  }, [location.pathname, queryClient]);
+  const handleLogout = async () => {
+    try {
+      await logoutService();
+      queryClient.removeQueries(["user"]);
+      toast.success("Đăng xuất thành công");
+      setUserData(null);
+      localStorage.removeItem("user");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50 font-sans">
@@ -60,9 +86,41 @@ export default function Header() {
             </button>
 
             {/* User icon */}
-            <Link to="/login">
-              <img src={user} alt="User" className="w-6 h-6" />
-            </Link>
+            {userData ? (
+              <div className="relative group">
+                <button className="flex items-center gap-2">
+                  <img
+                    src={
+                      userData.image ||
+                      "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    }
+                    alt="User"
+                    className="w-6 h-6 rounded-full"
+                  />
+                  <span className="hidden lg:block text-sm">
+                    {userData.last_name} {userData.first_name}
+                  </span>
+                </button>
+                <ul className="absolute right-0 mt-0 w-56 bg-white shadow-lg rounded-lg opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-60">
+                  <li
+                    onClick={() => navigate("/profile")}
+                    className="px-5 py-2.5 hover:bg-gray-50 cursor-pointer text-lg text-gray-700"
+                  >
+                    Thông tin cá nhân
+                  </li>
+                  <li
+                    onClick={handleLogout}
+                    className="px-5 py-2.5 hover:bg-gray-50 cursor-pointer text-lg text-red-500"
+                  >
+                    Đăng xuất
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <Link to="/login">
+                <img src={user} alt="User" className="w-6 h-6" />
+              </Link>
+            )}
 
             {/* Mobile menu */}
             <button

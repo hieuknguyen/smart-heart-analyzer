@@ -15,7 +15,7 @@ export default function RegisterForm() {
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: (res) => {
-      if (res.data !== null) {
+      if (res) {
         toast.success("Đăng ký thành công");
         navigate("/login");
       } else {

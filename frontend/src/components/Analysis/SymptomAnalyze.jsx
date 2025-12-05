@@ -84,8 +84,8 @@ export const HeartSymptomAnalyze = () => {
                 className="w-full border rounded-md p-2"
               />
               <p className="text-xs text-gray-500 mt-1 italic">
-                Typical Angina: Đau điển hình • Atypical Angina: Không điển hình • Non-Angina: Không do tim • Asymptomatic:
-                Không đau ngực
+                Typical Angina: Đau điển hình • Atypical Angina: Không điển hình
+                • Non-Angina: Không do tim • Asymptomatic: Không đau ngực
               </p>
             </div>
 
@@ -145,7 +145,8 @@ export const HeartSymptomAnalyze = () => {
                 className="w-full border rounded-md p-2"
               />
               <p className="text-xs text-gray-500 mt-1 italic">
-                Normal = Bình thường • ST-T Abnormality = ST-T bất thường • Left Ventricular Hypertrophy =Phì đại tâm thất
+                Normal = Bình thường • ST-T Abnormality = ST-T bất thường • Left
+                Ventricular Hypertrophy =Phì đại tâm thất
               </p>
             </div>
 
@@ -233,7 +234,8 @@ export const HeartSymptomAnalyze = () => {
                 className="w-full border rounded-md p-2"
               />
               <p className="text-xs text-gray-500 mt-1 italic">
-                Normal = Bình thường • Fixed Default = Cố định • Reversible Defect = Hồi phục
+                Normal = Bình thường • Fixed Default = Cố định • Reversible
+                Defect = Hồi phục
               </p>
             </div>
           </div>
